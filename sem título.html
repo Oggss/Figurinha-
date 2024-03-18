@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Depósito de Figurinhas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    p {
+      color: #666;
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    label {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    label:hover {
+      background-color: #45a049;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Deposite aqui as figurinhas da Gabriela Lino</h1>
+    <p>Por favor, selecione uma imagem para enviar:</p>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <label for="fileInput">Escolher arquivo</label>
+      <input type="file" id="fileInput" name="file" accept="image/*">
+      <br><br>
+      <button type="button" onclick="enviarImagem()">Enviar Imagem</button>
+    </form>
+  </div>
+
+  <script>
+    function enviarImagem() {
+      var formData = new FormData();
+      var fileInput = document.getElementById('fileInput');
+      if (fileInput.files.length > 0) {
+        formData.append('file', fileInput.files[0]);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'enviar_imagem.php', true); // Substitua 'enviar_imagem.php' pelo nome do script que irá processar o envio da imagem
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            // Redirecionar para o link do WhatsApp com o número específico
+            window.location.href = 'https://api.whatsapp.com/send?phone=+5514997130763';
+          } else {
+            alert('Erro ao enviar a imagem. Por favor, tente novamente.');
+          }
+        };
+        xhr.send(formData);
+      } else {
+        alert('Por favor, selecione uma imagem.');
+      }
+    }
+  </script>
+</body>
+</html>
